@@ -1,99 +1,95 @@
-# PharmacyQuickOrder
+## How to Run
 
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+```bash
+# Install dependencies
+yarn install
 
-# Getting Started
-
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
-
-## Step 1: Start Metro
-
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
-
-To start the Metro dev server, run the following command from the root of your React Native project:
-
-```sh
-# Using npm
-npm start
-
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
+# iOS
+cd ios && pod install && cd ..
 yarn ios
+
+# Android
+yarn android
+
+# Tests
+yarn test
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## How I Organized State & Logic
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+### Project Structure
 
-## Step 3: Modify your app
+```
+src/
+  hooks/
+    useCart.tsx       - Cart logic with Context Provider
+    useDebounce.ts    - Search debouncing
+  screens/
+    ProductScreen.tsx - Product list and search
+    CartScreen.tsx    - Shopping cart
+  types/
+    index.ts          - TypeScript definitions
+```
 
-Now that you have successfully run the app, let's make changes!
+### Key Decisions
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+**Custom Hook Pattern**
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+- `useCart()` wraps all cart operations
+- Components stay clean and testable
+- Single source of truth
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+**AsyncStorage**
 
-## Congratulations! :tada:
+- Saves cart data automatically
+- Persists between app restarts
+- Simple key-value storage
 
-You've successfully run and modified your React Native App. :partying_face:
+**TypeScript**
 
-### Now what?
+- Catches errors early
+- Better autocomplete
+- Safer refactoring
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## Trade-offs
 
-# Troubleshooting
+### What Works Well
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+- Clean code with easy flow
+- TypeScript
+- Cart data persists
+- Basic unit tests
+- With a simple structure using CartProvider instead of Redux, Jotai, etc.
 
-# Learn More
+### What I'd Improve with More Time
 
-To learn more about React Native, take a look at the following resources:
+**Performance**
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+- Optimize FlatList rendering (virtualization, memo)
+- Add data pagination/infinite scroll
+- Add React.memo where needed
+
+**UX**
+
+- Loading states
+- Success animations
+- Empty state designs
+- Upgrade UI
+
+**Scalability**
+
+- Use Redux, Jotai, ... for real application
+- Add real backend API
+- User authentication
+- Order history
+- Use React Navigation features correctly
+- Add an Action folder and a Controller file for API handling
+- Create a template component that can be reused across the app
+
+### Why These Choices?
+
+**AsyncStorage vs Database?**
+Good enough for cart data. Would use SQLite/Realm for more complex data.
+
+**Testing Approach?**
+Started simple to learn Jest properly.
