@@ -59,7 +59,7 @@ src/
 - TypeScript
 - Cart data persists
 - Basic unit tests
-- With a simple structure using CartProvider instead of Redux, Jotai, etc.
+- Chose a lightweight CartProvider instead of Redux/Jotai to reduce complexity for this scope.
 
 ### What I'd Improve with More Time
 
